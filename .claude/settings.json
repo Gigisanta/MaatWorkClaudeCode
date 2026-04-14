@@ -1,0 +1,88 @@
+{
+  "env": {
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_PACKAGE_MANAGER": "bun",
+    "CLAUDE_AUTO_MEMORY_ENABLED": "true"
+  },
+  "permissions": {
+    "allow": [
+      "Read:*",
+      "Glob:*",
+      "Grep:*",
+      "Edit:**/*.ts",
+      "Edit:**/*.js",
+      "Edit:**/*.tsx",
+      "Edit:**/*.css",
+      "Edit:**/*.json",
+      "Edit:**/*.md",
+      "Edit:.claude/ralph-loop.local.md",
+      "Bash:git *",
+      "Bash:npm *",
+      "Bash:pnpm *",
+      "Bash:yarn *",
+      "Bash:bun *"
+    ],
+    "deny": [
+      "Bash:rm -rf *",
+      "Bash:sudo *",
+      "Bash:curl *",
+      "Bash:wget *"
+    ],
+    "defaultMode": "auto"
+  },
+  "enabledMcpjsonServers": [
+    "context7",
+    "brave-search"
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "The user requested a web search but the WebSearch tool is broken (returns error 400). Instead of calling WebSearch, call mcp__brave-search__brave_web_search with the same query. Extract the query from $ARGUMENTS. Report the results as if you had done a normal web search."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/auto-format.sh",
+            "async": true
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "qodo-skills@claude-plugins-official": true,
+    "remember@claude-plugins-official": true,
+    "product-tracking-skills@claude-plugins-official": true,
+    "firecrawl@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "github@claude-plugins-official": false,
+    "skill-creator@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true
+  },
+  "language": "spanish",
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
+  "autoMemory": {
+    "enabled": true,
+    "maxFiles": 50,
+    "maxTokens": 80000
+  }
+}

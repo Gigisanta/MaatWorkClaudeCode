@@ -1,0 +1,215 @@
+{
+  "version": 2,
+  "plugins": {
+    "atomic-agents@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/atomic-agents/0e7b9bb12980",
+        "version": "0e7b9bb12980",
+        "installedAt": "2026-03-17T19:27:14.790Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "e3c734c09ba357408c759ee0cb9191b8caf79624"
+      }
+    ],
+    "ralph-loop@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/ralph-loop/b664e152af57",
+        "version": "b664e152af57",
+        "installedAt": "2026-03-17T19:28:53.338Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "78497c524da3762865d47377357c30af5b50d522"
+      }
+    ],
+    "playwright@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/playwright/b664e152af57",
+        "version": "b664e152af57",
+        "installedAt": "2026-03-17T19:29:19.348Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "78497c524da3762865d47377357c30af5b50d522"
+      }
+    ],
+    "commit-commands@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/commit-commands/b664e152af57",
+        "version": "b664e152af57",
+        "installedAt": "2026-03-19T15:18:41.426Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "158ef95c6f7fc1b5629b5a915e2af2c07d15e237"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/security-guidance/b664e152af57",
+        "version": "b664e152af57",
+        "installedAt": "2026-03-19T15:18:41.433Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "158ef95c6f7fc1b5629b5a915e2af2c07d15e237"
+      }
+    ],
+    "pr-review-toolkit@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/b664e152af57",
+        "version": "b664e152af57",
+        "installedAt": "2026-03-19T15:18:41.453Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "158ef95c6f7fc1b5629b5a915e2af2c07d15e237"
+      }
+    ],
+    "plugin-dev@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/prueba",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/plugin-dev/b664e152af57",
+        "version": "b664e152af57",
+        "installedAt": "2026-03-19T15:18:41.518Z",
+        "lastUpdated": "2026-04-06T12:41:15.681Z",
+        "gitCommitSha": "158ef95c6f7fc1b5629b5a915e2af2c07d15e237"
+      }
+    ],
+    "qodo-skills@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/qodo-skills/0.6.0",
+        "version": "0.6.0",
+        "installedAt": "2026-04-09T16:30:57.627Z",
+        "lastUpdated": "2026-04-09T16:30:57.627Z",
+        "gitCommitSha": "e1b66a5f56d2926a516d33596a680637757f9d8b"
+      }
+    ],
+    "remember@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/remember/0.1.0",
+        "version": "0.1.0",
+        "installedAt": "2026-04-09T16:31:25.517Z",
+        "lastUpdated": "2026-04-09T16:31:25.517Z",
+        "gitCommitSha": "779ab61d8d412230eeec1840b8ca104bebea4358"
+      }
+    ],
+    "product-tracking-skills@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/product-tracking-skills/1.1.0",
+        "version": "1.1.0",
+        "installedAt": "2026-04-09T16:32:10.855Z",
+        "lastUpdated": "2026-04-09T16:32:10.855Z",
+        "gitCommitSha": "341f8cf47d8b5dda550222152377c50aee34c723"
+      }
+    ],
+    "firecrawl@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/firecrawl/1.0.8",
+        "version": "1.0.8",
+        "installedAt": "2026-04-11T16:08:38.389Z",
+        "lastUpdated": "2026-04-11T16:08:38.389Z",
+        "gitCommitSha": "9475749594282d1a806b9c71bd8ce6a62bcf94bd"
+      }
+    ],
+    "vercel@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/vercel/0.32.5",
+        "version": "0.32.5",
+        "installedAt": "2026-04-11T21:58:40.486Z",
+        "lastUpdated": "2026-04-11T21:58:40.486Z",
+        "gitCommitSha": "6e1917f9b805d5f4df3a95ea1c601867e48677c4"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7",
+        "version": "5.0.7",
+        "installedAt": "2026-04-11T21:58:41.742Z",
+        "lastUpdated": "2026-04-11T21:58:41.742Z",
+        "gitCommitSha": "917e5f53b16b115b70a3a355ed5f4993b9f8b73d"
+      }
+    ],
+    "chrome-devtools-mcp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/chrome-devtools-mcp/latest",
+        "version": "latest",
+        "installedAt": "2026-04-11T21:58:44.272Z",
+        "lastUpdated": "2026-04-11T21:58:44.272Z",
+        "gitCommitSha": "c2d8009ff75f76bce1ec4cf79c2467b50d81725e"
+      }
+    ],
+    "code-review@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/code-review/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-11T21:58:44.460Z",
+        "lastUpdated": "2026-04-11T21:58:44.460Z"
+      }
+    ],
+    "context7@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/context7/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-11T21:58:44.637Z",
+        "lastUpdated": "2026-04-11T21:58:44.637Z"
+      }
+    ],
+    "feature-dev@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/feature-dev/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-11T21:58:44.814Z",
+        "lastUpdated": "2026-04-11T21:58:44.814Z"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/frontend-design/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-11T21:58:44.992Z",
+        "lastUpdated": "2026-04-11T21:58:44.992Z"
+      }
+    ],
+    "github@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/github/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-11T21:58:45.171Z",
+        "lastUpdated": "2026-04-11T21:58:45.171Z"
+      }
+    ],
+    "skill-creator@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/skill-creator/unknown",
+        "version": "unknown",
+        "installedAt": "2026-04-11T21:58:45.350Z",
+        "lastUpdated": "2026-04-11T21:58:45.350Z"
+      }
+    ],
+    "code-simplifier@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/prueba/.claude/plugins/cache/claude-plugins-official/code-simplifier/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-13T16:34:37.123Z",
+        "lastUpdated": "2026-04-13T16:34:37.123Z"
+      }
+    ]
+  }
+}

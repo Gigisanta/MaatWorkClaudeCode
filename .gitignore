@@ -1,0 +1,23 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# API Keys (nunca commitear)
+*.key
+secrets.json
+
+# Logs
+*.log
+
+# Claude Code local data (no copiar)
+.claude/plugins/cache/
+.claude/sessions/
+.claude/transcripts/
+.claude/history.jsonl
+.claude/.remember/
+.claude/projects/

@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.4.5",
+    "lastTouchedAt": "2026-04-11T19:10:00.000Z",
+    "optimized": true,
+    "reason": "LEAN: removed broken hooks pointing to non-existent plugin"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-commands.sh"
+          }
+        ],
+        "description": "Log bash commands with timestamp"
+      }
+    ]
+  }
+}
