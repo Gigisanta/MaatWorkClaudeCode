@@ -527,4 +527,35 @@ if (retryCount > MAX_RETRIES) { }
 setTimeout(callback, DEBOUNCE_DELAY_MS)
 ```
 
+## Anti-Patterns Quick Reference
+
+| ❌ Pattern | ✅ Fix |
+|-----------|-------|
+| Helper for one-liner | Inline the code |
+| Factory for 2 objects | Direct instantiation |
+| utils.ts with 1 function | Put code where used |
+| Deep nesting | Guard clauses, early returns |
+| Magic numbers | Named constants |
+| God functions | Split by responsibility |
+
+## Pragmatic AI Coding Rules
+
+| Situation | Action |
+|-----------|--------|
+| User asks for feature | Write it directly |
+| User reports bug | Fix it, don't explain |
+| No clear requirement | Ask, don't assume |
+
+## Verification Checklist
+
+| Check | Question |
+|-------|----------|
+| ✅ **Goal met?** | Did I do exactly what user asked? |
+| ✅ **Files edited?** | Did I modify all necessary files? |
+| ✅ **Code works?** | Did I test/verify the change? |
+| ✅ **No errors?** | Lint and TypeScript pass? |
+| ✅ **Nothing forgotten?** | Any edge cases missed? |
+
+> **Rule:** If ANY check fails, fix it before completing.
+
 **Remember**: Code quality is not negotiable. Clear, maintainable code enables rapid development and confident refactoring.

@@ -1,8 +1,3 @@
----
-paths:
-  - "**/*.swift"
-  - "**/Package.swift"
----
 # Swift Testing
 
 > This file extends [common/testing.md](../common/testing.md) with Swift specific content.

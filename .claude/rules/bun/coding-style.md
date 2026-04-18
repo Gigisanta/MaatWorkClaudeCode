@@ -1,9 +1,3 @@
----
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
-  - "**/*.js"
----
 # Bun Coding Style
 
 > This file extends [common/coding-style.md](../common/coding-style.md) with Bun specific content.

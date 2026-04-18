@@ -1,8 +1,3 @@
----
-paths:
-  - "**/app/**/*.{ts,tsx}"
-  - "**/src/app/**/*.{ts,tsx}"
----
 # Next.js Hooks
 
 > This file extends [common/hooks.md](../common/hooks.md) with Next.js specific content.

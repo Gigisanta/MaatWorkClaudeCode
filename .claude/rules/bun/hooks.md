@@ -1,8 +1,3 @@
----
-paths:
-  - "**/*.ts"
-  - "**/package.json"
----
 # Bun Hooks
 
 > This file extends [common/hooks.md](../common/hooks.md) with Bun specific content.

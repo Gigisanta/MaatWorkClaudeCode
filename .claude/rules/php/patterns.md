@@ -1,8 +1,3 @@
----
-paths:
-  - "**/*.php"
-  - "**/composer.json"
----
 # PHP Patterns
 
 > This file extends [common/patterns.md](../common/patterns.md) with PHP specific content.

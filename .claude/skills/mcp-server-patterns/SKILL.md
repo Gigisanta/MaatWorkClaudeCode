@@ -1,12 +1,11 @@
 ---
 name: mcp-server-patterns
-description: Build MCP servers with Node/TypeScript SDK — tools, resources, prompts, Zod validation, stdio vs Streamable HTTP. Use Context7 or official MCP docs for latest API.
-origin: ECC
+description: Build MCP servers with Node/TypeScript SDK — tools, resources, prompts, Zod validation, stdio vs Streamable HTTP. Use Context7 or official MCP docs for latest API. Pin @modelcontextprotocol/sdk version in package.json.
 ---
 
 # MCP Server Patterns
 
-The Model Context Protocol (MCP) lets AI assistants call tools, read resources, and use prompts from your server. Use this skill when building or maintaining MCP servers. The SDK API evolves; check Context7 (query-docs for "MCP") or the official MCP documentation for current method names and signatures.
+The Model Context Protocol (MCP) lets AI assistants call tools, read resources, and use prompts from your server. Use this skill when building or maintaining MCP servers.
 
 ## When to Use
 
@@ -16,52 +15,105 @@ Use when: implementing a new MCP server, adding tools or resources, choosing std
 
 ### Core concepts
 
-- **Tools**: Actions the model can invoke (e.g. search, run a command). Register with `registerTool()` or `tool()` depending on SDK version.
-- **Resources**: Read-only data the model can fetch (e.g. file contents, API responses). Register with `registerResource()` or `resource()`. Handlers typically receive a `uri` argument.
-- **Prompts**: Reusable, parameterised prompt templates the client can surface (e.g. in Claude Desktop). Register with `registerPrompt()` or equivalent.
-- **Transport**: stdio for local clients (e.g. Claude Desktop); Streamable HTTP is preferred for remote (Cursor, cloud). Legacy HTTP/SSE is for backward compatibility.
+- **Tools**: Actions the model can invoke (e.g. search, run a command). Registered via `server.tool()`.
+- **Resources**: Read-only data the model can fetch (e.g. file contents, API responses). Registered via `server.resource()`. Handlers receive a `uri` argument.
+- **Prompts**: Reusable, parameterised prompt templates the client can surface. Registered via `server.prompt()`.
+- **Transport**: stdio for local clients (Claude Desktop); Streamable HTTP for remote (Cursor, cloud).
 
-The Node/TypeScript SDK may expose `tool()` / `resource()` or `registerTool()` / `registerResource()`; the official SDK has changed over time. Always verify against the current [MCP docs](https://modelcontextprotocol.io) or Context7.
+### SDK Version Pinning (CRITICAL)
 
-### Connecting with stdio
-
-For local clients, create a stdio transport and pass it to your server’s connect method. The exact API varies by SDK version (e.g. constructor vs factory). See the official MCP documentation or query Context7 for "MCP stdio server" for the current pattern.
-
-Keep server logic (tools + resources) independent of transport so you can plug in stdio or HTTP in the entrypoint.
-
-### Remote (Streamable HTTP)
-
-For Cursor, cloud, or other remote clients, use **Streamable HTTP** (single MCP HTTP endpoint per current spec). Support legacy HTTP/SSE only when backward compatibility is required.
-
-## Examples
-
-### Install and server setup
+**Always pin the SDK version in package.json.** The SDK API changes between versions.
 
 ```bash
-npm install @modelcontextprotocol/sdk zod
+npm install @modelcontextprotocol/sdk@1.0.0 zod
 ```
+
+Check the [MCP SDK changelog](https://github.com/modelcontextprotocol/typescript-sdk/releases) before upgrading.
+
+### Current SDK API (v1.x)
 
 ```typescript
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 const server = new McpServer({ name: "my-server", version: "1.0.0" });
+
+// Register a tool
+server.tool(
+  "search",
+  "Search for information",
+  {
+    query: z.string().describe("The search query"),
+    limit: z.number().optional().describe("Max results (default 10)")
+  },
+  async ({ query, limit = 10 }) => {
+    const results = await searchApi(query, limit);
+    return { content: [{ type: "text", text: JSON.stringify(results) }] };
+  }
+);
+
+// Register a resource
+server.resource(
+  "config",
+  "Application configuration",
+  "config://app",
+  async (uri) => ({
+    contents: [{ uri, text: await readConfig() }]
+  })
+);
+
+// Register a prompt
+server.prompt(
+  "review-code",
+  "Review code for issues",
+  { code: z.string(), language: z.string().optional() },
+  ({ code, language }) => ({
+    messages: [{
+      role: "user",
+      content: { type: "text", text: `Review this ${language ?? "code"}:\n\n${code}` }
+    }]
+  })
+);
 ```
 
-Register tools and resources using the API your SDK version provides: some versions use `server.tool(name, description, schema, handler)` (positional args), others use `server.tool({ name, description, inputSchema }, handler)` or `registerTool()`. Same for resources — include a `uri` in the handler when the API provides it. Check the official MCP docs or Context7 for the current `@modelcontextprotocol/sdk` signatures to avoid copy-paste errors.
+### Connecting with stdio
 
-Use **Zod** (or the SDK’s preferred schema format) for input validation.
+```typescript
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+### Remote (Streamable HTTP)
+
+```typescript
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamable-http.js";
+
+const transport = new StreamableHTTPServerTransport({ port: 3100 });
+await server.connect(transport);
+```
 
 ## Best Practices
 
-- **Schema first**: Define input schemas for every tool; document parameters and return shape.
-- **Errors**: Return structured errors or messages the model can interpret; avoid raw stack traces.
-- **Idempotency**: Prefer idempotent tools where possible so retries are safe.
-- **Rate and cost**: For tools that call external APIs, consider rate limits and cost; document in the tool description.
-- **Versioning**: Pin SDK version in package.json; check release notes when upgrading.
+- **Schema first**: Define Zod input schemas for every tool; document parameters and return shape.
+- **Errors**: Return structured errors — the model interprets tool results as JSON.
+- **Idempotency**: Prefer idempotent tools so retries are safe.
+- **Rate and cost**: For tools that call external APIs, consider rate limits and cost.
+- **Versioning**: Pin SDK version; check release notes when upgrading.
 
-## Official SDKs and Docs
+## Context7 Integration
 
-- **JavaScript/TypeScript**: `@modelcontextprotocol/sdk` (npm). Use Context7 with library name "MCP" for current registration and transport patterns.
-- **Go**: Official Go SDK on GitHub (`modelcontextprotocol/go-sdk`).
-- **C#**: Official C# SDK for .NET.
+Use Context7 to verify current SDK API:
+```
+Library name: MCP (or @modelcontextprotocol/sdk)
+```
+
+Query Context7 for "MCP server stdio" or "MCP server Streamable HTTP" to confirm current patterns.
+
+## Reference
+
+- [MCP Specification](https://modelcontextprotocol.io)
+- [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
+- [Python SDK](https://github.com/modelcontextprotocol/python-sdk)
+- [Go SDK](https://github.com/modelcontextprotocol/go-sdk)

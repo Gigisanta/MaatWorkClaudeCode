@@ -1,9 +1,3 @@
----
-paths:
-  - "**/*.test.ts"
-  - "**/*.spec.ts"
-  - "**/tests/**/*.ts"
----
 # Bun Testing
 
 > This file extends [common/testing.md](../common/testing.md) with Bun specific content.

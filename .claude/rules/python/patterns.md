@@ -1,8 +1,3 @@
----
-paths:
-  - "**/*.py"
-  - "**/*.pyi"
----
 # Python Patterns
 
 > This file extends [common/patterns.md](../common/patterns.md) with Python specific content.

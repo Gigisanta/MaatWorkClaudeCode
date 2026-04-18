@@ -1,8 +1,3 @@
----
-paths:
-  - "**/app/**/*.{ts,tsx}"
-  - "**/src/app/**/*.{ts,tsx}"
----
 # Next.js Testing
 
 > This file extends [typescript/testing.md](../typescript/testing.md) with Next.js specific content.
@@ -42,14 +37,13 @@ afterEach(() => {
 ## Testing API Routes
 
 ```typescript
-// tests/api/deals.test.ts
-import { describe, it, expect, beforeEach } from 'vitest'
-import { GET, POST } from '@/app/api/deals/route'
-import { db } from '@/lib/db'
+// tests/api/items.test.ts
+import { describe, it, expect } from 'vitest'
+import { GET, POST } from '@/app/api/items/route'
 
-describe('GET /api/deals', () => {
-  it('should return deals for authenticated user', async () => {
-    const request = new Request('http://localhost/api/deals', {
+describe('GET /api/items', () => {
+  it('should return items for authenticated user', async () => {
+    const request = new Request('http://localhost/api/items', {
       headers: { Cookie: 'session=valid-session-token' }
     })
     const response = await GET(request)
@@ -57,7 +51,7 @@ describe('GET /api/deals', () => {
   })
 
   it('should return 401 for unauthenticated', async () => {
-    const request = new Request('http://localhost/api/deals')
+    const request = new Request('http://localhost/api/items')
     const response = await GET(request)
     expect(response.status).toBe(401)
   })
@@ -67,22 +61,19 @@ describe('GET /api/deals', () => {
 ## Testing Server Actions
 
 ```typescript
-// app/actions/deals.test.ts
+// app/actions/items.test.ts
 import { describe, it, expect } from 'vitest'
-import { createDeal } from './deals'
-import { db } from '@/lib/db'
+import { createItem } from './items'
 
-describe('createDeal', () => {
-  it('should create a deal with proper data', async () => {
-    const deal = await createDeal({
-      name: 'Test Deal',
-      stage: 'PROSPECTO',
+describe('createItem', () => {
+  it('should create an item with proper data', async () => {
+    const item = await createItem({
+      name: 'Test Item',
       userId: 'user-1'
     })
 
-    expect(deal).toMatchObject({
-      name: 'Test Deal',
-      stage: 'PROSPECTO'
+    expect(item).toMatchObject({
+      name: 'Test Item'
     })
   })
 })
@@ -91,25 +82,25 @@ describe('createDeal', () => {
 ## Testing Components
 
 ```typescript
-// components/ContactList.test.tsx
+// components/ItemList.test.tsx
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { ContactList } from './ContactList'
+import { ItemList } from './ItemList'
 
-describe('ContactList', () => {
+describe('ItemList', () => {
   it('should render empty state', () => {
-    render(<ContactList contacts={[]} />)
-    expect(screen.getByText(/no contacts/i)).toBeInTheDocument()
+    render(<ItemList items={[]} />)
+    expect(screen.getByText(/no items/i)).toBeInTheDocument()
   })
 
-  it('should render contact list', () => {
-    const contacts = [
-      { id: '1', name: 'John', email: 'john@example.com' },
-      { id: '2', name: 'Jane', email: 'jane@example.com' }
+  it('should render item list', () => {
+    const items = [
+      { id: '1', name: 'Item 1' },
+      { id: '2', name: 'Item 2' }
     ]
-    render(<ContactList contacts={contacts} />)
-    expect(screen.getByText('John')).toBeInTheDocument()
-    expect(screen.getByText('Jane')).toBeInTheDocument()
+    render(<ItemList items={items} />)
+    expect(screen.getByText('Item 1')).toBeInTheDocument()
+    expect(screen.getByText('Item 2')).toBeInTheDocument()
   })
 })
 ```
@@ -120,12 +111,12 @@ describe('ContactList', () => {
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DealForm } from './DealForm'
+import { ItemForm } from './ItemForm'
 
-describe('DealForm', () => {
+describe('ItemForm', () => {
   it('should validate required fields', async () => {
     const user = userEvent.setup()
-    render(<DealForm />)
+    render(<ItemForm />)
 
     await user.click(screen.getByRole('button', { name: /save/i }))
     expect(screen.getByText(/name is required/i)).toBeInTheDocument()
@@ -134,13 +125,13 @@ describe('DealForm', () => {
   it('should submit with valid data', async () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
-    render(<DealForm onSubmit={onSubmit} />)
+    render(<ItemForm onSubmit={onSubmit} />)
 
-    await user.type(screen.getByLabel(/name/i), 'Test Deal')
+    await user.type(screen.getByLabel(/name/i), 'Test Item')
     await user.click(screen.getByRole('button', { name: /save/i }))
 
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ name: 'Test Deal' })
+      expect.objectContaining({ name: 'Test Item' })
     )
   })
 })
@@ -158,7 +149,7 @@ vi.mock('next/navigation', () => ({
     replace: vi.fn(),
     refresh: vi.fn()
   }),
-  usePathname: () => '/contacts'
+  usePathname: () => '/items'
 }))
 
 // Mock next/image
@@ -169,7 +160,7 @@ vi.mock('next/image', () => ({
 // Mock server-only modules
 vi.mock('@/lib/db', () => ({
   db: {
-    contact: {
+    item: {
       findMany: vi.fn().mockResolvedValue([])
     }
   }

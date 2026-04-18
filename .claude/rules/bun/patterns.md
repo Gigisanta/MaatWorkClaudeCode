@@ -1,8 +1,3 @@
----
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
----
 # Bun Patterns
 
 > This file extends [patterns.md](../common/patterns.md) with Bun specific patterns.

@@ -4,17 +4,17 @@
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp@latest"],
       "env": {
-        "UPSTASH_CONTEXT7_API_KEY": "TU_UPSTASH_CONTEXT7_API_KEY"
+        "UPSTASH_CONTEXT7_API_KEY": "YOUR_CONTEXT7_API_KEY_HERE"
       },
-      "description": "Live documentation lookup — CRITICAL for accurate code generation"
+      "description": "Live documentation lookup — CRITICAL for accurate code generation. Get your key at https://console.upstash.com/"
     },
     "brave-search": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-brave-search"],
       "env": {
-        "BRAVE_API_KEY": "TU_BRAVE_API_KEY"
+        "BRAVE_API_KEY": "YOUR_BRAVE_API_KEY_HERE"
       },
-      "description": "Web search via Brave Search API"
+      "description": "Web search via Brave Search API. Get your key at https://brave.com/search/api/"
     }
   }
 }

@@ -1,8 +1,3 @@
----
-paths:
-  - "**/app/**/*.{ts,tsx}"
-  - "**/src/app/**/*.{ts,tsx}"
----
 # Next.js Patterns
 
 > This file extends [patterns.md](../common/patterns.md) with Next.js specific patterns.
@@ -22,7 +17,7 @@ export function apiError(message: string, status = 400) {
 }
 
 // Usage
-return apiResponse({ deal })
+return apiResponse({ item })
 return apiError('Not found', 404)
 ```
 
@@ -67,22 +62,22 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
-const dealSchema = z.object({
+const itemSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  stage: z.string(),
-  value: z.number().positive()
+  description: z.string().optional(),
+  quantity: z.number().int().positive()
 })
 
-type DealFormData = z.infer<typeof dealSchema>
+type ItemFormData = z.infer<typeof itemSchema>
 
-export function DealForm() {
-  const form = useForm<DealFormData>({
-    resolver: zodResolver(dealSchema),
-    defaultValues: { stage: 'PROSPECTO', value: 0 }
+export function ItemForm() {
+  const form = useForm<ItemFormData>({
+    resolver: zodResolver(itemSchema),
+    defaultValues: { quantity: 1 }
   })
 
-  async function onSubmit(data: DealFormData) {
-    const res = await fetch('/api/deals', {
+  async function onSubmit(data: ItemFormData) {
+    const res = await fetch('/api/items', {
       method: 'POST',
       body: JSON.stringify(data)
     })
@@ -104,10 +99,10 @@ export function DealForm() {
 ## Parallel Routes Pattern
 
 ```tsx
-// app/@modal/(.)contacts/[id]/page.tsx
-// Renders inside modal when visiting /contacts/123
-export default function ContactModal() {
-  return <ContactView contactId={params.id} />
+// app/@modal/(.)items/[id]/page.tsx
+// Renders inside modal when visiting /items/123
+export default function ItemModal() {
+  return <ItemView itemId={params.id} />
 }
 
 // app/@modal/default.tsx
@@ -123,7 +118,7 @@ export default function Default() {
 // app/(marketing)/page.tsx      → /
 // app/(marketing)/about/page.tsx → /about
 // app/(dashboard)/layout.tsx    → Shared layout for dashboard routes
-// app/(dashboard)/contacts/page.tsx → /contacts
+// app/(dashboard)/items/page.tsx → /items
 ```
 
 ## Streaming Pattern
@@ -136,8 +131,8 @@ export default function DashboardPage() {
   return (
     <div>
       <DashboardStats />
-      <Suspense fallback={<DealsSkeleton />}>
-        <RecentDeals />
+      <Suspense fallback={<ItemsSkeleton />}>
+        <RecentItems />
       </Suspense>
     </div>
   )
@@ -153,9 +148,9 @@ export const revalidate = 3600 // Revalidate every hour
 // On-demand (revalidatePath, revalidateTag)
 import { revalidatePath, revalidateTag } from 'next/cache'
 
-export async function createDeal(formData: FormData) {
-  await db.deal.create({ data: formData })
-  revalidatePath('/pipeline')
-  revalidatePath('/contacts')
+export async function createItem(formData: FormData) {
+  await db.item.create({ data: formData })
+  revalidatePath('/items')
+  revalidateTag('items')
 }
 ```

@@ -68,13 +68,13 @@ read -p "Ingresa tu UPSTASH_CONTEXT7_API_KEY (o Enter para omitir): " context7_k
 read -p "Ingresa tu BRAVE_API_KEY (o Enter para omitir): " brave_key
 
 if [ -n "$context7_key" ]; then
-    sed -i.bak "s/TU_UPSTASH_CONTEXT7_API_KEY/$context7_key/g" "$HOME/.claude/mcp.json"
+    sed -i.bak "s/YOUR_CONTEXT7_API_KEY_HERE/$context7_key/g" "$HOME/.claude/mcp.json"
     rm -f "$HOME/.claude/mcp.json.bak"
     echo -e "${GREEN}Context7 API key configurada${NC}"
 fi
 
 if [ -n "$brave_key" ]; then
-    sed -i.bak "s/TU_BRAVE_API_KEY/$brave_key/g" "$HOME/.claude/mcp.json"
+    sed -i.bak "s/YOUR_BRAVE_API_KEY_HERE/$brave_key/g" "$HOME/.claude/mcp.json"
     rm -f "$HOME/.claude/mcp.json.bak"
     echo -e "${GREEN}Brave API key configurada${NC}"
 fi

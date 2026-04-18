@@ -1,8 +1,3 @@
----
-paths:
-  - "**/*.py"
-  - "**/*.pyi"
----
 # Python Hooks
 
 > This file extends [common/hooks.md](../common/hooks.md) with Python specific content.

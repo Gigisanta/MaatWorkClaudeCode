@@ -1,9 +1,3 @@
----
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
-  - "**/.env*"
----
 # Bun Security
 
 > This file extends [common/security.md](../common/security.md) with Bun specific content.

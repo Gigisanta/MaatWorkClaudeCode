@@ -1,24 +1,27 @@
 # Rules
+
 ## Structure
 
 Rules are organized into a **common** layer plus **language-specific** directories:
 
 ```
 rules/
-├── common/          # Language-agnostic principles (always install)
-│   ├── coding-style.md
-│   ├── git-workflow.md
-│   ├── testing.md
-│   ├── performance.md
-│   ├── patterns.md
-│   ├── hooks.md
+├── common/              # Language-agnostic principles (always install)
 │   ├── agents.md
-│   └── security.md
-├── typescript/      # TypeScript/JavaScript specific
-├── python/          # Python specific
-├── golang/          # Go specific
-├── swift/           # Swift specific
-└── php/             # PHP specific
+│   ├── coding-style.md
+│   ├── development-workflow.md
+│   ├── git-workflow.md
+│   ├── hooks.md
+│   ├── patterns.md
+│   ├── performance.md
+│   ├── security.md
+│   └── testing.md
+├── bun/                 # Bun runtime specific
+├── nextjs/              # Next.js specific
+├── php/                 # PHP specific
+├── python/              # Python specific
+├── swift/               # Swift specific
+└── typescript/          # TypeScript/JavaScript specific
 ```
 
 - **common/** contains universal principles — no language-specific code examples.
@@ -26,21 +29,7 @@ rules/
 
 ## Installation
 
-### Option 1: Install Script (Recommended)
-
-```bash
-# Install common + one or more language-specific rule sets
-./install.sh typescript
-./install.sh python
-./install.sh golang
-./install.sh swift
-./install.sh php
-
-# Install multiple languages at once
-./install.sh typescript python
-```
-
-### Option 2: Manual Installation
+### Manual Installation
 
 > **Important:** Copy entire directories — do NOT flatten with `/*`.
 > Common and language-specific directories contain files with the same names.
@@ -54,12 +43,11 @@ cp -r rules/common ~/.claude/rules/common
 
 # Install language-specific rules based on your project's tech stack
 cp -r rules/typescript ~/.claude/rules/typescript
+cp -r rules/nextjs ~/.claude/rules/nextjs
+cp -r rules/bun ~/.claude/rules/bun
 cp -r rules/python ~/.claude/rules/python
-cp -r rules/golang ~/.claude/rules/golang
 cp -r rules/swift ~/.claude/rules/swift
 cp -r rules/php ~/.claude/rules/php
-
-# Attention ! ! ! Configure according to your actual project requirements; the configuration here is for reference only.
 ```
 
 ## Rules vs Skills
@@ -91,13 +79,11 @@ To add support for a new language (e.g., `rust/`):
 When language-specific rules and common rules conflict, **language-specific rules take precedence** (specific overrides general). This follows the standard layered configuration pattern (similar to CSS specificity or `.gitignore` precedence).
 
 - `rules/common/` defines universal defaults applicable to all projects.
-- `rules/golang/`, `rules/python/`, `rules/swift/`, `rules/php/`, `rules/typescript/`, etc. override those defaults where language idioms differ.
+- `rules/bun/`, `rules/nextjs/`, `rules/python/`, `rules/swift/`, `rules/php/`, `rules/typescript/`, etc. override those defaults where language idioms differ.
 
 ### Example
 
-`common/coding-style.md` recommends immutability as a default principle. A language-specific `golang/coding-style.md` can override this:
-
-> Idiomatic Go uses pointer receivers for struct mutation — see [common/coding-style.md](../common/coding-style.md) for the general principle, but Go-idiomatic mutation is preferred here.
+`common/coding-style.md` recommends immutability as a default principle. A language-specific `typescript/coding-style.md` can override this for TypeScript-specific patterns.
 
 ### Common rules with override notes
 

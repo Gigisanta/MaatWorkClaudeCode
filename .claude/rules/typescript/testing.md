@@ -1,10 +1,3 @@
----
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
-  - "**/*.js"
-  - "**/*.jsx"
----
 # TypeScript/JavaScript Testing
 
 > This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.
@@ -35,7 +28,7 @@ tests/
 ### React Components (Testing Library)
 
 ```typescript
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 
 // WRONG: Implementation detail testing
@@ -82,9 +75,9 @@ import { describe, it, expect } from 'vitest'
 import { POST } from './route'
 import { generatePayload } from '@/tests/helpers'
 
-describe('POST /api/deals', () => {
-  it('should create deal and return 201', async () => {
-    const payload = generatePayload({ name: 'Test Deal' })
+describe('POST /api/items', () => {
+  it('should create item and return 201', async () => {
+    const payload = generatePayload({ name: 'Test Item' })
     const response = await POST(new Request('http://localhost', {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -93,31 +86,31 @@ describe('POST /api/deals', () => {
 
     expect(response.status).toBe(201)
     const data = await response.json()
-    expect(data.deal).toMatchObject({ name: 'Test Deal' })
+    expect(data.item).toMatchObject({ name: 'Test Item' })
   })
 })
 ```
 
-### Database Tests (Prisma)
+### Database Tests
 
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest'
 import { db } from '@/lib/db'
 
-describe('Deal operations', () => {
+describe('Item operations', () => {
   beforeEach(async () => {
-    await db.deal.deleteMany()
+    await db.item.deleteMany()
   })
 
-  it('should create a deal with stage', async () => {
-    const deal = await db.deal.create({
+  it('should create an item', async () => {
+    const item = await db.item.create({
       data: {
         name: 'Test',
-        stage: 'PROSPECTO',
+        quantity: 10,
         userId: 'user-1'
       }
     })
-    expect(deal.stage).toBe('PROSPECTO')
+    expect(item.name).toBe('Test')
   })
 })
 ```
@@ -129,25 +122,25 @@ describe('Deal operations', () => {
 ```typescript
 import { test, expect, Page } from '@playwright/test'
 
-export class DealPage {
+export class ItemPage {
   constructor(private page: Page) {}
 
-  async createDeal(name: string) {
-    await this.page.getByRole('button', { name: /new deal/i }).click()
-    await this.page.getByLabel(/deal name/i).fill(name)
+  async createItem(name: string) {
+    await this.page.getByRole('button', { name: /new item/i }).click()
+    await this.page.getByLabel(/item name/i).fill(name)
     await this.page.getByRole('button', { name: /save/i }).click()
   }
 
-  async gotoPipeline() {
-    await this.page.goto('/pipeline')
+  async gotoList() {
+    await this.page.goto('/items')
   }
 }
 
-test('should create deal through pipeline', async ({ page }) => {
-  const dealPage = new DealPage(page)
-  await dealPage.gotoPipeline()
-  await dealPage.createDeal('Enterprise Deal')
-  await expect(page.getByText('Enterprise Deal')).toBeVisible()
+test('should create item through list page', async ({ page }) => {
+  const itemPage = new ItemPage(page)
+  await itemPage.gotoList()
+  await itemPage.createItem('Enterprise Item')
+  await expect(page.getByText('Enterprise Item')).toBeVisible()
 })
 ```
 
@@ -215,7 +208,7 @@ export function generatePayload<T>(overrides: Partial<T>): T {
   } as T
 }
 
-export async function createTestUser(db: PrismaClient) {
+export async function createTestUser(db: any) {
   return db.user.create({
     data: {
       email: `test-${Date.now()}@example.com`,

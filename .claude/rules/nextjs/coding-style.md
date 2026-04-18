@@ -1,9 +1,3 @@
----
-paths:
-  - "**/app/**/*.{ts,tsx}"
-  - "**/src/app/**/*.{ts,tsx}"
-  - "**/next.config.*"
----
 # Next.js Coding Style
 
 > This file extends [common/coding-style.md](../common/coding-style.md) with Next.js specific content.
@@ -23,15 +17,15 @@ paths:
 // DEFAULT: Server Component (no 'use client')
 // app/dashboard/page.tsx
 export default async function DashboardPage() {
-  const data = await fetchDashboardData() // Direct async/await
+  const data = await fetchDashboardData()
   return <DashboardStats data={data} />
 }
 
 // ONLY when needed: Client Component
 'use client'
 import { useState } from 'react'
-export function DealForm() {
-  const [stage, setStage] = useState('')
+export function ItemForm() {
+  const [name, setName] = useState('')
   // ...
 }
 ```
@@ -40,16 +34,15 @@ export function DealForm() {
 
 ```tsx
 // Server Component fetches data
-// app/contacts/page.tsx
-export default async function ContactsPage() {
-  const contacts = await db.contact.findMany()
-  return <ContactList contacts={contacts} />
+// app/items/page.tsx
+export default async function ItemsPage() {
+  const items = await fetchItems()
+  return <ItemList items={items} />
 }
 
 // Client Component handles interactivity
 'use client'
-import { ContactList } from './ContactList'
-// ContactList uses useState for filtering/sorting
+import { ItemList } from './ItemList'
 ```
 
 ## App Router Conventions
@@ -64,17 +57,16 @@ app/
 ├── error.tsx            # Error boundaries
 ├── not-found.tsx        # 404 page
 ├── api/                 # API routes
-│   ├── contacts/route.ts
-│   └── deals/route.ts
+│   ├── items/route.ts
+│   └── users/route.ts
 ```
 
 ### Route Handlers
 
 ```typescript
-// app/api/deals/route.ts
+// app/api/items/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
-import { db } from '@/lib/db'
 
 export async function GET(req: NextRequest) {
   const session = await auth()
@@ -82,10 +74,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const deals = await db.deal.findMany({
-    where: { userId: session.user.id }
-  })
-  return NextResponse.json({ deals })
+  const items = await fetchItemsByUser(session.user.id)
+  return NextResponse.json({ items })
 }
 
 export async function POST(req: NextRequest) {
@@ -95,10 +85,8 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json()
-  const deal = await db.deal.create({
-    data: { ...body, userId: session.user.id }
-  })
-  return NextResponse.json({ deal }, { status: 201 })
+  const item = await createItem({ ...body, userId: session.user.id })
+  return NextResponse.json({ item }, { status: 201 })
 }
 ```
 
@@ -142,7 +130,7 @@ import Image from 'next/image'
   alt="Company logo"
   width={180}
   height={40}
-  priority // For above-the-fold images
+  priority
 />
 ```
 
@@ -163,10 +151,10 @@ NEXT_PUBLIC_API_URL=https://api.example.com
 ```typescript
 export async function GET() {
   try {
-    const data = await db.deal.findMany()
+    const data = await fetchData()
     return NextResponse.json({ data })
   } catch (error) {
-    console.error('GET /api/deals error:', error)
+    console.error('GET /api/items error:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -215,7 +203,7 @@ import dynamic from 'next/dynamic'
 
 const HeavyChart = dynamic(() => import('@/components/HeavyChart'), {
   loading: () => <Skeleton />,
-  ssr: false // Disable SSR for client-only components
+  ssr: false
 })
 ```
 
@@ -225,10 +213,10 @@ const HeavyChart = dynamic(() => import('@/components/HeavyChart'), {
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contacts | MaatWork CRM',
-  description: 'Manage your contacts and relationships',
+  title: 'App Name',
+  description: 'Application description',
   openGraph: {
-    title: 'Contacts | MaatWork CRM',
+    title: 'App Name',
     images: ['/og-image.png']
   }
 }

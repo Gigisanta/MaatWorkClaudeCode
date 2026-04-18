@@ -1,9 +1,3 @@
----
-paths:
-  - "**/app/**/*.{ts,tsx}"
-  - "**/src/app/**/*.{ts,tsx}"
-  - "**/middleware.ts"
----
 # Next.js Security
 
 > This file extends [common/security.md](../common/security.md) with Next.js specific content.
@@ -15,7 +9,7 @@ paths:
 ```typescript
 // WRONG: No auth check
 export async function GET() {
-  const data = await db.deal.findMany()
+  const data = await db.item.findMany()
   return NextResponse.json({ data })
 }
 
@@ -25,7 +19,7 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  const data = await db.deal.findMany({
+  const data = await db.item.findMany({
     where: { userId: session.user.id }
   })
   return NextResponse.json({ data })
@@ -83,16 +77,16 @@ export const GET = handler(async (req) => {
 ```typescript
 import { z } from 'zod'
 
-const createDealSchema = z.object({
+const createItemSchema = z.object({
   name: z.string().min(1).max(255),
-  stage: z.enum(['PROSPECTO', 'CONTACTADO', 'CLIENTE']),
-  value: z.number().positive()
+  category: z.string(),
+  quantity: z.number().int().positive()
 })
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
 
-  const result = createDealSchema.safeParse(body)
+  const result = createItemSchema.safeParse(body)
   if (!result.success) {
     return NextResponse.json(
       { error: 'Validation failed', details: result.error },
@@ -100,8 +94,8 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const deal = await db.deal.create({ data: result.data })
-  return NextResponse.json({ deal }, { status: 201 })
+  const item = await db.item.create({ data: result.data })
+  return NextResponse.json({ item }, { status: 201 })
 }
 ```
 
@@ -172,14 +166,14 @@ export const config = {
 
 ## SQL Injection Prevention
 
-Prisma automatically prevents SQL injection via parameterized queries.
+ORMs like Prisma automatically prevent SQL injection via parameterized queries.
 
 ```typescript
-// SAFE: Prisma parameterized queries
-const deals = await db.deal.findMany({
-  where: { userId: userInput } // Prisma escapes automatically
+// SAFE: ORM parameterized queries
+const items = await db.item.findMany({
+  where: { userId: userInput } // ORM escapes automatically
 })
 
 // NEVER: Raw SQL with user input
-const bad = await db.$queryRaw`SELECT * FROM deals WHERE id = ${userInput}`
+const bad = await db.$queryRaw`SELECT * FROM items WHERE id = ${userInput}`
 ```
